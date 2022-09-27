@@ -1,0 +1,12 @@
+* Terminal version 2.11
+Installation path: /System/Applications/Utilities/Terminal.app
+* Git version 2.30.1 (Apple Git-130) 
+Installation path: /usr/bin/git
+* NodeJS version v18.9.0
+Installation path: /opt/homebrew/bin/node
+* NMP version 8.19.1
+Installation path: /opt/homebrew/bin/npm
+* TextEdit version 1.16
+Installation path: /System/Applications/TextEdit.app
+* Visual Studio Code version 1.67.2
+Installation path: /Users/mirandakarecho/Downloads/Visual Studio Code.app
