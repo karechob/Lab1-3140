@@ -1,125 +1,101 @@
 import java.util.Scanner;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+import java.time.temporal.ChronoUnit;
+import java.time.LocalDate;
 public class LabDates {
     public static void main (String [] args) {
         Scanner sc = new Scanner(System.in);
-        String[] labDates = new String[4];
-        labDates[0] = "9/28";
-        labDates[1] = "10/26";
-        labDates[2] = "11/23";
-        labDates[3] = "12/7";
-
-        System.out.println("----- Labs Due ~ Fall Semester 2022 -----");
-        System.out.println("Please input the current date (M/D):");
-        String currentDate = sc.next();
-
-        String month = currentDate.substring(0, currentDate.indexOf("/"));
-        String day = currentDate.substring(currentDate.indexOf("/") + 1, currentDate.length());
-        int monthNum = Integer.parseInt(month);
-
-        int daysLabOne = CalculateDateLabOne(day, month, labDates);
-        int daysLabTwo = CalculateDateLabTwo(day, month, labDates);
-        int daysLabThree = CalculateDateLabThree(day, month, labDates);
-        int daysLabFour = CalculateDateLabFour(day, month, labDates);
-
-        if(monthNum == 9) {
-            if (daysLabOne < 0) {
-                System.out.println("Lab One was due " + Math.abs(daysLabOne) + " day(s) ago.");
-            } else {
-                System.out.println("Lab One due in " + daysLabOne + " day(s).");
-            }
-        } else if (monthNum > 9){
-            System.out.println("Lab One was due " + daysLabOne + " day(s) ago.");
+        System.out.println("------- Days Lab -------");
+        System.out.println("\n*Some key words for dates:");
+        System.out.println("\"lab1\", \"lab2\", \"lab3\", \"lab4\", \"quiz1\", \n\"quiz2\", \"quiz3\", \"quiz4\", \"quiz5\", \"finalexam\"");
+        System.out.println("\nFormat for the dates can be: \"MM/DD/YYYY\" or \"MM-DD\" (last format will set year to upcoming year.)");
+        System.out.println("\nEnter the two dates or keywords to calculate number of days left:");
+        System.out.println("\n--------------------------------");
+        while (sc.hasNext()) {
+            printDays(sc.next(), sc.next());
         }
-
-        if(monthNum == 10) {
-            if (daysLabTwo < 0) {
-                System.out.println("Lab Two was due " + Math.abs(daysLabTwo) + " days ago.");
-            } else {
-                System.out.println("Lab Two due in " + daysLabTwo + " day(s).");
-            }
-        } else if (monthNum < 10) {
-            System.out.println("Lab Two due in " + daysLabTwo + " day(s).");
-        } else if (monthNum > 10) {
-            System.out.println("Lab Two was due " + daysLabTwo + " day(s) ago.");
-        }
-
-        if(monthNum == 11) {
-            if(daysLabThree < 0) {
-                System.out.println("Lab Three was due " + Math.abs(daysLabThree) + " days ago.");
-            } else {
-                System.out.println("Lab Three due in " + daysLabThree + " day(s).");
-            }
-        } else if (monthNum < 11) {
-            System.out.println("Lab Three due in " + daysLabThree + " day(s).");
-        } else if (monthNum > 11) {
-            System.out.println("Lab Three was due " + daysLabThree + " day(s) ago.");
-        }
-
-        if(monthNum == 12) {
-            if(daysLabFour < 0) {
-                System.out.println("Lab Four was due " + Math.abs(daysLabFour) + " days ago.");
-            } else {
-                System.out.println("Lab Four due in " + daysLabFour + " day(s).");
-            }
-        } else if (monthNum < 12) {
-            System.out.println("Lab Four due in " + daysLabFour + " day(s).");
-        }
-
-
-        System.out.println("If a Lab was 0 days ago, then it is due today.");
         sc.close();
+
     }
-    
-    public static int CalculateDateLabOne(String day, String month, String[] labDates){
-        int daysTillLabOne = 0;
-        if (Integer.parseInt(month) == 9){
-            daysTillLabOne =  Integer.parseInt(labDates[0].substring(labDates[0].indexOf("/") + 1, labDates[0].length())) - Integer.parseInt(day);
-        } else if (Integer.parseInt(month) == 10) {
-            daysTillLabOne = Integer.parseInt(day) + 2;
-        } else if (Integer.parseInt(month) == 11) {
-            daysTillLabOne = Integer.parseInt(day) + 33;
-        } else if (Integer.parseInt(month) == 12) {
-            daysTillLabOne = Integer.parseInt(day) + 63;
-        }
-        return daysTillLabOne;
+    public static void printDays(String firstDate, String secondDate){
+        LocalDate printFirstDate = savedDate(firstDate);
+        LocalDate printSecondDate = savedDate(secondDate);
+
+        long days = ChronoUnit.DAYS.between(printFirstDate, printSecondDate);
+        String daysBetString = "There's " + days + " days between the two dates.";
+        System.out.println(daysBetString.contains("-") ? daysBetString.replace("-", "") : daysBetString);
+        
     }
-    public static int CalculateDateLabTwo(String day, String month, String[] labDates){
-        int daysTillLabTwo = 0;
-        if (Integer.parseInt(month) == 10){
-            daysTillLabTwo =  Integer.parseInt(labDates[1].substring(labDates[1].indexOf("/") + 1, labDates[1].length())) - Integer.parseInt(day);
-        } else if (Integer.parseInt(month) == 9) {
-            daysTillLabTwo = (30 - Integer.parseInt(day)) + 26 ;
-        } else if (Integer.parseInt(month) == 11) {
-            daysTillLabTwo = Integer.parseInt(day) + 5;
-        } else if (Integer.parseInt(month) == 12) {
-            daysTillLabTwo = Integer.parseInt(day) + 35;
+    public static LocalDate savedDate(String date){
+        LocalDate quiz1Date = LocalDate.of(2022, 9, 14);
+        LocalDate quiz2Date = LocalDate.of(2022, 9, 28);
+        LocalDate quiz3Date = LocalDate.of(2022, 10, 26);
+        LocalDate quiz4Date = LocalDate.of(2022, 11, 16);
+        LocalDate quiz5Date = LocalDate.of(2022, 12, 7);
+        LocalDate lab1Date = LocalDate.of(2022, 9, 28);
+        LocalDate lab2Date = LocalDate.of(2022, 10, 26);
+        LocalDate lab3Date = LocalDate.of(2022, 11, 23);
+        LocalDate lab4Date = LocalDate.of(2022, 12, 7); 
+        LocalDate finalExam = LocalDate.of(2022, 12, 19);
+
+        if(date.equals("quiz1")) {
+            return quiz1Date;
+        } else if(date.equals("quiz2")) {
+            return quiz2Date;
+        } else if(date.equals("quiz3")) {
+            return quiz3Date;
+        } else if(date.equals("quiz4")) {
+            return quiz4Date;
+        } else if(date.equals("quiz5")) {
+            return quiz5Date;
+        } else if(date.equals("lab1")) {
+            return lab1Date;
+        } else if(date.equals("lab2")) {
+            return lab2Date;
+        } else if(date.equals("lab3")) {
+            return lab3Date;
+        } else if(date.equals("lab4")) {
+            return lab4Date;
+        } else if(date.equals("finalexam")) {
+            return finalExam;
         }
-        return daysTillLabTwo;
-    }
-    public static int CalculateDateLabThree(String day, String month, String[] labDates){ 
-        int daysTillLabThree = 0;
-        if (Integer.parseInt(month) == 11){
-            daysTillLabThree =  Integer.parseInt(labDates[2].substring(labDates[2].indexOf("/") + 1, labDates[2].length())) - Integer.parseInt(day);
-        } else if (Integer.parseInt(month) == 9) {
-            daysTillLabThree = (61 - Integer.parseInt(day)) + 23 ;
-        } else if (Integer.parseInt(month) == 10) {
-            daysTillLabThree = Integer.parseInt(day) + 5;
-        } else if (Integer.parseInt(month) == 12) {
-            daysTillLabThree = Integer.parseInt(day) + 35;
+        return dateFormatCheck(date);
+    } 
+    public static LocalDate dateFormatCheck(String date){ //change code here to change the format of the date 
+        String regexMMDD = "(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])"; //MM-DD
+        String regexMMDDYYYY = "(0[1-9]|1[012])/(0[1-9]|[12][0-9]|3[01])/((?:19|20)[0-9][0-9])"; //MM/DD/YYYY
+       
+        // String regexYYYYMMDD = "((?:19|20)[0-9][0-9])-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])"; //YYYY-MM-DD
+        //this allows input in the format YYYY-MM-DD
+        
+        Pattern patternMMDD = Pattern.compile(regexMMDD);
+        Pattern patternMMDDYYYY = Pattern.compile(regexMMDDYYYY);
+        //Pattern patternYYYYMMDD = Pattern.compile(regexYYYYMMDD); this would compile the pattern to match strings of the format YYYY-MM-DD
+        
+        Matcher dateMatchMMDD = patternMMDD.matcher(date);
+        Matcher dateMatchMMDDYYYY = patternMMDDYYYY.matcher(date);
+       // Matcher dateMatchYYYYMMDD = patternYYYYMMDD.matcher(date); this matches the strings of the format YYYY-MM-DD
+
+        if(dateMatchMMDD.matches() == true) {
+            String dateStr[] = date.split("-");
+            String fullDateMMDD = "2023" + "-" + dateStr[0] + "-" + dateStr[1];
+
+            LocalDate finalDateMMDD = LocalDate.parse(fullDateMMDD);
+            return finalDateMMDD;
+        } else if (dateMatchMMDDYYYY.matches() == true) {
+            String dateStr2[] = date.split("/");
+            String fullDateMMDDYYYY = dateStr2[2] + "-" + dateStr2[0] + "-" + dateStr2[1];
+
+            LocalDate finalDateMMDDYYYY = LocalDate.parse(fullDateMMDDYYYY);
+            return finalDateMMDDYYYY;
         }
-        return daysTillLabThree;
-    }
-    public static int CalculateDateLabFour(String day, String month, String[] labDates){ 
-        int daysTillLabFour = 0; 
-        if (Integer.parseInt(month) == 12){
-            daysTillLabFour =  Integer.parseInt(labDates[3].substring(labDates[2].indexOf("/") + 1, labDates[3].length())) - Integer.parseInt(day);
-        } else if (Integer.parseInt(month) == 9) {
-            daysTillLabFour = (91 - Integer.parseInt(day)) + 7 ;
-        } else if (Integer.parseInt(month) == 10) {
-            daysTillLabFour = (61 - Integer.parseInt(day)) + 7;
-        } else if (Integer.parseInt(month) == 11) {
-            daysTillLabFour = (30 - Integer.parseInt(day)) + 7;
+        
+        if(dateMatchMMDD.matches() == false && dateMatchMMDDYYYY.matches() == false) {
+            System.out.println("Wrong format, enter another date in either of these formats: \n\"YYYY-MM-DD\", \"MM/DD/YYYY\" or \"MM-DD\"");
         }
-        return daysTillLabFour;
+
+        LocalDate curDate = LocalDate.now();
+        return curDate; 
     }
 }
