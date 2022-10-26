@@ -1,4 +1,5 @@
 To run makefile file type in terminal: make
+
 To run bash file type in terminal: 1) chmod +x NameOfFile 2) ./NameOfFile
 
 Part 1 reflection:
