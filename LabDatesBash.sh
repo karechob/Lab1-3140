@@ -1,4 +1,4 @@
-#!/bin/bash
+#! /bin/bash
 
 #menu options
 echo ------ Days Lab -------     
